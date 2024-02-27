@@ -1,11 +1,18 @@
 package com.example.mapfortravelers
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.InputType
 import android.util.Base64
 import android.view.WindowManager
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.android.volley.RequestQueue
@@ -14,6 +21,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.yandex.runtime.Runtime.getApplicationContext
 import java.io.ByteArrayOutputStream
+import java.io.IOException
 
 
 class DialogPMarkFragment : DialogFragment() {
@@ -46,6 +54,9 @@ class DialogPMarkFragment : DialogFragment() {
     var bitmap: Bitmap? = null
     var onOk: (() -> Unit)? = null
     var onCancel: (() -> Unit)? = null
+
+    private val PICK_IMAGE_REQUEST = 71
+    private var filePath: Uri? = null
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val title = arguments?.getString(EXTRA_TITLE)
         val hint = arguments?.getString(EXTRA_HINT)
@@ -55,9 +66,31 @@ class DialogPMarkFragment : DialogFragment() {
         editText = view.findViewById(R.id.editText)
         btnUpload = view.findViewById(R.id.btn_upld)
         editText.hint = hint
+
+        var activityResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult(), ActivityResultCallback<ActivityResult>() {
+            fun onActivityResult(result: ActivityResult) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    val data: Intent? = result.getData()
+                    val uri = data?.data
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity()?.getContentResolver(), uri)
+                    } catch (e: IOException) {
+                        throw RuntimeException(e)
+                    }
+                }
+            }
+        })
+
         btnUpload.setOnClickListener {
             val byteArrayOutputStream: ByteArrayOutputStream
             byteArrayOutputStream = ByteArrayOutputStream()
+
+            // Toast.makeText(getApplicationContext(), "F", Toast.LENGTH_SHORT).show();
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.data = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            activityResultLauncher.launch(intent)
+
             if (bitmap != null) {
                 val w: Int = bitmap!!.getWidth()
                 val h: Int = bitmap!!.getHeight()
@@ -95,5 +128,6 @@ class DialogPMarkFragment : DialogFragment() {
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         return dialog
     }
+
 
 }

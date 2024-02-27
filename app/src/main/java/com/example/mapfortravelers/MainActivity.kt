@@ -76,7 +76,8 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        override fun onMapTap(map: com.yandex.mapkit.map.Map, point: Point) = Unit
+        override fun onMapTap(map: com.yandex.mapkit.map.Map, point: Point) {
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
