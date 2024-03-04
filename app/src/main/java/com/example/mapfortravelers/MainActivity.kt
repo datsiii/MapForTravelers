@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setMarkerInStartLocation() {
-        val marker = R.drawable.ic_pin // Добавляем ссылку на картинку
+        val marker = R.drawable.ic_ya_pin // Добавляем ссылку на картинку
         mapObjectCollection =
             binding.appBarMain.content.mapview.map.mapObjects // Инициализируем коллекцию различных объектов на карте
         placemarkMapObject = mapObjectCollection.addPlacemark(
@@ -155,16 +155,11 @@ class MainActivity : AppCompatActivity() {
     private fun createPlacemark(point: Point) {
         placemarkMapObject = map.mapObjects.addPlacemark(
             point,
-            ImageProvider.fromResource(this@MainActivity, R.drawable.ic_pin),
+            ImageProvider.fromResource(this@MainActivity, R.drawable.ic_ya_pin),
             IconStyle().apply { anchor = PointF(0.5f, 1.0f) }
         ).apply {
             isDraggable = true
         }
-    }
-
-    private fun createPlacemarkMapObjectWithViewProvider() {
-        var textView = TextView(this);
-
     }
 
     companion object {
