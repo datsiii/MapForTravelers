@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mapfortravelers.databinding.ActivityStartBinding
-import com.yandex.mapkit.MapKitFactory
-import com.yandex.mapkit.MapKitFactory.setApiKey
 
 class StartActivity : AppCompatActivity() {
 
@@ -25,17 +23,14 @@ class StartActivity : AppCompatActivity() {
         btnGuest = findViewById(R.id.guestButton)
 
         btnSignUp.setOnClickListener {
-            // Handler code here.
             val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent);
         }
         btnLogin.setOnClickListener {
-            // Handler code here.
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent);
         }
         btnGuest.setOnClickListener {
-            // Handler code here.
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent);
         }

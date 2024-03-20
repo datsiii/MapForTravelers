@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    //id("org.openapi.generator")
 }
 
 android {
@@ -38,6 +39,24 @@ android {
     }
 }
 
+/*val generatedSourcesPath = "$buildDir/generated"
+val apiDescriptionFile = "$rootDir/app/src/main/res/openapi.json"
+val apiRootName = "com.makrol.teamcity.api.client"
+
+openApiGenerate {
+    generatorName.set("kotlin")
+    inputSpec.set(apiDescriptionFile)
+    outputDir.set("$buildDir/generated")
+    apiPackage.set("$apiRootName.api")
+    invokerPackage.set("$apiRootName.invoker")
+    modelPackage.set("$apiRootName.model")
+}
+kotlin.sourceSets["main"].kotlin.srcDir("$generatedSourcesPath/src/main/kotlin")
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    dependsOn("openApiGenerate")
+}*/
+
 dependencies {
 
     implementation ("com.android.volley:volley:1.2.1")
@@ -52,6 +71,19 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    // OpenAPI client
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+    // Coroutines to make the HTTP requests asynchronous(In the background thread)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    // Okhttp3 for the POST requests
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    // Gson to convert raw JSON to pretty JSON
+    implementation("com.google.code.gson:gson:2.8.9")
+    implementation("io.ktor:ktor-client-cio:1.0.0")
+    //implementation("ktor")
     // Облегченная библиотека, содержит только карту, слой пробок,
     // LocationManager, UserLocationLayer
     // и возможность скачивать офлайн-карты (только в платной версии).

@@ -31,6 +31,7 @@ class DialogPMarkFragment : DialogFragment() {
         private const val EXTRA_HINT = "Mетка"
         private const val EXTRA_MULTILINE = "multiline"
         private const val EXTRA_TEXT = "text"
+
         fun newInstance(
             title: String? = null,
             hint: String? = null,
